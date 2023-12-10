@@ -3,43 +3,32 @@ import mysql.connector
 import hashlib
 import os
 from db_control import *
-
-def main_menu():
-    while True:
-        print("=== Main Menu ===")
-        print("1. 로그인")
-        print("2. 사용자 계정 추가")
-        print("3. 사용자 계정 탈퇴")
-        print("4. 객실 예약")
-        print("5. 종료")
-        
-        choice = input("메뉴를 선택하세요: ")
-        if choice == "1":
-            login()
-        elif choice == "2":
-            add_account()
-        elif choice == "3":
-            resign()
-        elif choice == "4":
-            reservation()
-        elif choice == "5":
-            print("프로그램을 종료합니다.")
-            break
-        else:
-            print("올바른 메뉴를 선택하세요.")
+import os
+import time
 
 def login():
-    ID = input("ID: ")
+    login_ID = input("ID: ")
     Password = input("Password: ")
-    cursor.execute("SELECT login('%s', '%s')" % (ID, hash_password(Password)))
+    cursor.execute("SELECT login('%s', '%s')" % (login_ID, hash_password(Password)))
     result = cursor.fetchone()[0]
+    os.system('cls')
     if result == 0:
         print("로그인 실패")
-    elif result == 1:
-        print("로그인 성공")
     else:
-        print("탈퇴를 신청한 회원입니다. 탈퇴를 취소합니다.")
+        if result == 2:
+            print("탈퇴를 신청한 회원입니다. 탈퇴를 취소합니다.")
         print("로그인 성공")
+        cursor.execute("""SELECT a.ID, a.CustomerID, c.Firstname, c.Lastname, c.Grade
+FROM account_info a
+JOIN customer_info c ON a.customerID = c.customerID
+WHERE a.ID = '%s' AND a.Password = '%s';""" % (login_ID, hash_password(Password)))
+        result = cursor.fetchall()
+        #print(result)
+        global islogin, ID, CustomerId, FirstName, LastName, Grade
+        islogin = True
+        ID, CustomerId, FirstName, LastName, Grade = result[0]
+        time.sleep(3)
+        os.system('cls')
 
 def add_account():
     print("사용자 계정 추가: ")
@@ -66,17 +55,9 @@ def hash_password(password):
     return hash.hexdigest()
 
 def reservation():
-    pass
-
-
-
-
-
-
-
-
-
-
+    if not islogin:
+        print("로그인을 해야 이용할 수 있는 서비스입니다.")
+        return
 
 
 
@@ -99,13 +80,48 @@ db = mysql.connector.connect(host=db_info.get_host(),
                                         user=db_info.get_username(),
                                         password=db_info.get_password(),
                                         database=db_info.get_database_name())
-print("Database connection succeeded.")
-
+os.system('cls')
+print("데이터 베이스에 성공적으로 연결 했습니다.",end="")
+time.sleep(0.7)
+print(".",end="")
+time.sleep(0.7)
+print(".")
+time.sleep(0.7)
+os.system('cls')
 # 커서 생성
 cursor = db.cursor()
-#cursor.execute("INSERT INTO customer_info (CustomerID, FirstName, LastName, Email, Phone, Grade) VALUES (16, 'John', 'Kim', 'john.kim@example.com', '122-456-7890', 'Gold');")
-
-main_menu()
+islogin = False
+ID = ''
+CustomerId = ''
+FirstName = ''
+LastName = ''
+FirstName = ''
+Grade = ''
+while True:
+    if islogin:
+        print("사용자: %s %s"%(FirstName, LastName))
+        print("ID: %s"%(ID))
+    print("=== Main Menu ===")
+    print("1. 로그인")
+    print("2. 사용자 계정 추가")
+    print("3. 사용자 계정 탈퇴")
+    print("4. 객실 예약")
+    print("5. 종료")
+        
+    choice = input("메뉴를 선택하세요: ")
+    if choice == "1":
+        login()
+    elif choice == "2":
+        add_account()
+    elif choice == "3":
+        resign()
+    elif choice == "4":
+        reservation()
+    elif choice == "5":
+        print("프로그램을 종료합니다.")
+        break
+    else:
+         print("올바른 메뉴를 선택하세요.")
 
 # 결과 출력
 
