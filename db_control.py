@@ -8,20 +8,17 @@ class user_controller:
     LastName=None
     Email=None
     Phone=None
-    config = {
-    'FirstName': FirstName,
-    'LastName': LastName,
-    'Email': Email,
-    'Phone': Phone,
-    'ID': ID,
-    'Password': Password
-    }
+
     @staticmethod
-    def set_insert_query():
+    def isresign():
+        
+
+    @staticmethod
+    def login():
         user_controller.query = "call CreateAccountInfo('%s', '%s', '%s', '%s', '%s', '%s');"%(user_controller.get_FirstName(),user_controller.get_LastName(),user_controller.get_Email(),user_controller.get_Phone(),user_controller.get_ID(),user_controller.get_Password())
 
     @staticmethod
-    def set_delete_query():
+    def login():
         user_controller.query="DELETE account_info FROM account_info WHERE ID='%s'"%(user_controller.deleteID)
 
     @staticmethod

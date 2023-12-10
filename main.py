@@ -8,7 +8,7 @@ def main_menu():
     while True:
         print("=== Main Menu ===")
         print("1. 사용자 계정 추가")
-        print("1. 사용자 계정 탈퇴")
+        print("2. 사용자 계정 탈퇴")
         print("3. 종료")
         
         choice = input("메뉴를 선택하세요: ")
