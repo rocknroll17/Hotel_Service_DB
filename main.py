@@ -7,17 +7,22 @@ from db_control import *
 def main_menu():
     while True:
         print("=== Main Menu ===")
-        print("1. 사용자 계정 추가")
-        print("2. 사용자 계정 탈퇴")
-        print("3. 종료")
+        print("1. 로그인")
+        print("2. 사용자 계정 추가")
+        print("3. 사용자 계정 탈퇴")
+        print("4. 객실 예약")
+        print("5. 종료")
         
         choice = input("메뉴를 선택하세요: ")
-
         if choice == "1":
-            add_account()
+            login()
         elif choice == "2":
-            resign()
+            add_account()
         elif choice == "3":
+            resign()
+        elif choice == "4":
+            reservation()
+        elif choice == "5":
             print("프로그램을 종료합니다.")
             break
         else:
@@ -31,10 +36,12 @@ def add_account():
     user_controller.set_LastName(input("LastName: "))
     user_controller.set_Email(input("Email: "))
     user_controller.set_Phone(input("Phone: "))
-    print(hash_password(user_controller.Password))
     cursor.callproc('CreateAccountInfo', args=(user_controller.FirstName,user_controller.LastName,user_controller.Email,user_controller.Phone,user_controller.ID,hash_password(user_controller.Password)))
     db.commit()
 
+def login():
+    user_controller.set_ID(input("ID: "))
+    user_controller.set_Password(input("Password: "))
 
 def hash_password(password):
     # 무작위 솔트 생성
@@ -45,12 +52,13 @@ def hash_password(password):
 
 def resign():
     user_controller.set_ID(input("ID: "))
+    user_controller.set_Password(input("Password: "))
+    cursor.execute(user_controller.resign_account())
+    db.commit()
 
 
-
-
-
-
+def reservation():
+    pass
 
 
 
