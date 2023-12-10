@@ -11,19 +11,13 @@ class user_controller:
     LastName=None
     Email=None
     Phone=None
-    def hash_password(password):
-        # 무작위 솔트 생성
-        salt = os.urandom(16)
-        hash = hashlib.sha256()
-        hash.update(password.encode('utf-8'))
-        return hash.hexdigest()
     
     @staticmethod
     def isresign():
         user_controller.query = "SELECT your_function('%s', '%s');"%(user_controller.ID,user_controller.Password)
 
     @staticmethod
-    def login_account():
+    def create_account():
         user_controller.query = "call CreateAccountInfo('%s', '%s', '%s', '%s', '%s', '%s');"%(user_controller.FirstName,user_controller.LastName,user_controller.Email,user_controller.Phone,user_controller.ID,user_controller.Password)
 
     @staticmethod

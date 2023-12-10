@@ -28,20 +28,35 @@ def main_menu():
         else:
             print("올바른 메뉴를 선택하세요.")
 
+def login():
+    ID = input("ID: ")
+    Password = input("Password: ")
+    cursor.execute("SELECT login('%s', '%s')" % (ID, hash_password(Password)))
+    result = cursor.fetchone()[0]
+    if result == 0:
+        print("로그인 실패")
+    elif result == 1:
+        print("로그인 성공")
+    else:
+        print("탈퇴를 신청한 회원입니다. 탈퇴를 취소합니다.")
+        print("로그인 성공")
+
 def add_account():
     print("사용자 계정 추가: ")
-    user_controller.set_ID(input("ID: "))
-    user_controller.set_Password(input("Password: "))
-    user_controller.set_FirstName(input("FirstName: "))
-    user_controller.set_LastName(input("LastName: "))
-    user_controller.set_Email(input("Email: "))
-    user_controller.set_Phone(input("Phone: "))
-    cursor.callproc('CreateAccountInfo', args=(user_controller.FirstName,user_controller.LastName,user_controller.Email,user_controller.Phone,user_controller.ID,hash_password(user_controller.Password)))
+    ID = (input("ID: "))
+    Password = input("Password: ")
+    FirstName = input("FirstName: ")
+    LastName = input("LastName: ")
+    Email = input("Email: ")
+    Phone = input("Phone: ")
+    cursor.callproc('CreateAccountInfo', args=(FirstName,LastName,Email,Phone,ID,hash_password(Password)))
     db.commit()
 
-def login():
-    user_controller.set_ID(input("ID: "))
-    user_controller.set_Password(input("Password: "))
+def resign():
+    ID = input("ID: ")
+    Password = input("Password: ")
+    cursor.execute("UPDATE account_info SET Active = 0 WHERE ID='%s' AND Password = '%s'"%(ID, hash_password(Password)))
+    db.commit()
 
 def hash_password(password):
     # 무작위 솔트 생성
@@ -49,13 +64,6 @@ def hash_password(password):
     hash = hashlib.sha256()
     hash.update(password.encode('utf-8'))
     return hash.hexdigest()
-
-def resign():
-    user_controller.set_ID(input("ID: "))
-    user_controller.set_Password(input("Password: "))
-    cursor.execute(user_controller.resign_account())
-    db.commit()
-
 
 def reservation():
     pass
