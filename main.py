@@ -25,8 +25,13 @@ def main_menu():
 
 def add_account():
     print("사용자 계정 추가: ")
-    user_controller.set_username(input("ID: "))
-    user_controller.set_password(input("Password: "))
+    user_controller.set_ID(input("ID: "))
+    user_controller.set_Password(input("Password: "))
+    user_controller.set_FirstName(input("Password: "))
+    user_controller.set_LastName(input("ID: "))
+    user_controller.set_Email(input("Password: "))
+    user_controller.set_Phone(input("ID: "))
+
     cursor.execute(user_controller.set_insert_query())
     result = cursor.fetchall()
 
