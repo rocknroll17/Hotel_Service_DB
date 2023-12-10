@@ -11,7 +11,7 @@ class user_controller:
 
     @staticmethod
     def set_insert_query():
-        user_controller.query = "INSERT account_info (username,password) VALUES (%s,%s)"%(user_controller.ID,user_controller.Password)
+        user_controller.query = "call CreateAccountInfo('%s', '%s', '%s', '%s', '%s', '%s');"%(user_controller.get_FirstName(),user_controller.get_LastName(),user_controller.get_Email(),user_controller.get_Phone(),user_controller.get_ID(),user_controller.get_Password())
 
     @staticmethod
     def set_delete_query():
@@ -20,21 +20,22 @@ class user_controller:
     @staticmethod
     def set_update_query():
         user_controller.query="UPDATE account_info SET password = %s WHERE ID = %s"%(user_controller.Password,user_controller.ID)
-    @staticmethod
-    def getUsername():
-        return user_controller.username
 
     @staticmethod
-    def getPassword():
-        return user_controller.password
+    def get_ID():
+        return user_controller.ID
 
     @staticmethod
-    def set_username(username):
-        user_controller.username = username
+    def get_Password():
+        return user_controller.Password
 
     @staticmethod
-    def set_password(password):
-        user_controller.password = password
+    def set_ID(ID):
+        user_controller.ID = ID
+
+    @staticmethod
+    def set_Password(password):
+        user_controller.Password = password
 
     @staticmethod
     def get_FirstName():

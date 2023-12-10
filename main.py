@@ -27,17 +27,15 @@ def add_account():
     print("사용자 계정 추가: ")
     user_controller.set_ID(input("ID: "))
     user_controller.set_Password(input("Password: "))
-    user_controller.set_FirstName(input("Password: "))
-    user_controller.set_LastName(input("ID: "))
-    user_controller.set_Email(input("Password: "))
-    user_controller.set_Phone(input("ID: "))
+    user_controller.set_FirstName(input("FirstName: "))
+    user_controller.set_LastName(input("LastName: "))
+    user_controller.set_Email(input("Email: "))
+    user_controller.set_Phone(input("Phone: "))
 
-    cursor.execute(user_controller.set_insert_query())
-    result = cursor.fetchall()
-
+    cursor.callproc(user_controller.set_insert_query())
+    #result = cursor.fetchall()
+    #print(result)
 # 결과 출력
-    for row in result:
-        print(row)
 
 def hash_password(password):
     # 무작위 솔트 생성
