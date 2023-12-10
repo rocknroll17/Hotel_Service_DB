@@ -17,6 +17,7 @@ class user_controller:
     def login_account():
         user_controller.query = "call CreateAccountInfo('%s', '%s', '%s', '%s', '%s', '%s');"%(user_controller.get_FirstName(),user_controller.get_LastName(),user_controller.get_Email(),user_controller.get_Phone(),user_controller.get_ID(),user_controller.get_Password())
 
+    @staticmethod
     def resign_account():
         user_controller.query="UPDATE account_info SET Active = '0' WHERE ID='%s'"%(user_controller.deleteID)
 
@@ -27,6 +28,10 @@ class user_controller:
     @staticmethod
     def get_ID():
         return user_controller.ID
+
+    @staticmethod
+    def set_deleteID(deleteID):
+        user_controller.deleteID=deleteID
 
     @staticmethod
     def get_Password():
