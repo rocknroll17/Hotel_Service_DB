@@ -31,11 +31,10 @@ def add_account():
     user_controller.set_LastName(input("LastName: "))
     user_controller.set_Email(input("Email: "))
     user_controller.set_Phone(input("Phone: "))
+    print(hash_password(user_controller.Password))
+    cursor.callproc('CreateAccountInfo', args=(user_controller.FirstName,user_controller.LastName,user_controller.Email,user_controller.Phone,user_controller.ID,hash_password(user_controller.Password)))
+    db.commit()
 
-    cursor.callproc(user_controller.set_insert_query())
-    #result = cursor.fetchall()
-    #print(result)
-# 결과 출력
 
 def hash_password(password):
     # 무작위 솔트 생성
@@ -88,16 +87,12 @@ print("Database connection succeeded.")
 
 # 커서 생성
 cursor = db.cursor()
+#cursor.execute("INSERT INTO customer_info (CustomerID, FirstName, LastName, Email, Phone, Grade) VALUES (16, 'John', 'Kim', 'john.kim@example.com', '122-456-7890', 'Gold');")
 
 main_menu()
 
-
-# 결과 가져오기
-result = cursor.fetchall()
-
 # 결과 출력
-for row in result:
-    print(row)
+
 # 연결 종료
 cursor.close()
 db.close()
