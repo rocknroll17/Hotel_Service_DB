@@ -22,11 +22,11 @@ class user_controller:
 
     @staticmethod
     def set_delete_query():
-        user_controller.query="DELETE account_info FROM account_info WHERE ID='%s'"%(user_controller.deleteID)
+        user_controller.query="UPDATE account_info SET Active = '0' WHERE ID='%s'"%(user_controller.deleteID)
 
     @staticmethod
     def set_update_query():
-        user_controller.query="UPDATE account_info SET password = %s WHERE ID = %s"%(user_controller.Password,user_controller.ID)
+        user_controller.query="UPDATE account_info SET Password = %s WHERE ID = %s"%(user_controller.Password,user_controller.ID)
 
     @staticmethod
     def get_ID():
