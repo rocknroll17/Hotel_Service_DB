@@ -16,7 +16,7 @@ def main_menu():
         if choice == "1":
             add_account()
         elif choice == "2":
-            option_2()
+            resign()
         elif choice == "3":
             print("프로그램을 종료합니다.")
             break
@@ -43,8 +43,8 @@ def hash_password(password):
     hash.update(password.encode('utf-8'))
     return hash.hexdigest()
 
-def option_2():
-    print("옵션 2가 선택되었습니다.")
+def resign():
+    user_controller.set_ID(input("ID: "))
 
 
 

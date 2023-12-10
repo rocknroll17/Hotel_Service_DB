@@ -11,19 +11,18 @@ class user_controller:
 
     @staticmethod
     def isresign():
-        
+        user_controller.query = 
 
     @staticmethod
-    def login():
+    def login_account():
         user_controller.query = "call CreateAccountInfo('%s', '%s', '%s', '%s', '%s', '%s');"%(user_controller.get_FirstName(),user_controller.get_LastName(),user_controller.get_Email(),user_controller.get_Phone(),user_controller.get_ID(),user_controller.get_Password())
 
-    @staticmethod
-    def login():
-        user_controller.query="DELETE account_info FROM account_info WHERE ID='%s'"%(user_controller.deleteID)
+    def resign_account():
+        user_controller.query="UPDATE account_info SET Active = '0' WHERE ID='%s'"%(user_controller.deleteID)
 
     @staticmethod
-    def set_update_query():
-        user_controller.query="UPDATE account_info SET password = %s WHERE ID = %s"%(user_controller.Password,user_controller.ID)
+    def update_password():
+        user_controller.query="UPDATE account_info SET Password = %s WHERE ID = %s"%(user_controller.Password,user_controller.ID)
 
     @staticmethod
     def get_ID():
