@@ -134,6 +134,25 @@ def reservation():
         return
     
     #여기에 코드 넣어서 해결
+    room_number = int(input("예약하고 싶은 객실 번호를 입력해주세요."))
+    cursor.execute("SELECT Available FROM room_capacity_info WHERE RoomID='%s';"%(room_number))
+    result = cursor.fetchone()
+    if result == None:
+        print("해당하는 객실번호는 없는 객실입니다.")
+        return
+    for room in result:
+        #룸 예약이 불가능하다면
+        #tinyint 값이 0이라면
+        if(room==0):
+            print("해당하는 객실번호는 현재 이용할 수 없는 객실입니다.")
+            return
+        print("해당하는 객실은 현재 이용이 가능합니다.")
+        print("1 : 예약한다")
+        print("2 : 예약하지 않는다")
+        ans=input("값을 입력해주세요")
+        if(ans=="1"):
+            cursor.execute("UPDATE room_capacity_info SET Available='%s' WHERE RoomID='%s';"%(0, room_number));
+
 
 
     os.system('cls')
