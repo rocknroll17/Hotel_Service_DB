@@ -143,6 +143,7 @@ def reservation():
     for room in result:
         #룸 예약이 불가능하다면
         #tinyint 값이 0이라면
+        print(room)
         if(room==0):
             print("해당하는 객실번호는 현재 이용할 수 없는 객실입니다.")
             return
@@ -152,7 +153,8 @@ def reservation():
         ans=input("값을 입력해주세요")
         if(ans=="1"):
             cursor.execute("UPDATE room_capacity_info SET Available='%s' WHERE RoomID='%s';"%(0, room_number));
-
+            db.commit();
+            return
 
 
     os.system('cls')
