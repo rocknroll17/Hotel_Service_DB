@@ -141,28 +141,33 @@ def reservation():
     for room in data:
         #룸 타입 출력
         print(room)
-    room_number = int(input("예약하고 싶은 객실 타입 번호를 입력해주세요."))
-    cursor.execute("SELECT Available FROM room_capacity_info WHERE RoomID='%s';"%(room_number))
-    result = cursor.fetchone()
+    room_type_number = int(input("예약하고 싶은 객실 타입 번호를 입력해주세요."))
+    print("선택한 객실 타입")
+    print(data[room_type_number-1])
+    cursor.execute("SELECT * "
+                   "FROM room_info ri "
+                   "JOIN room_capacity_info rc ON ri.RoomID = rc.RoomID "
+                   "WHERE ri.RoomTypeID = '%s';"%(room_type_number))
+    result = cursor.fetchall()
     if result == None:
         print("해당하는 객실번호는 없는 객실입니다.")
         return
+    #여러개의 객실이 나올 수 있음. 이때 하나라도 tinyint 값이 1인것이 나오면 예약이 가능하다는 이야기임.
     for room in result:
-        #룸 예약이 불가능하다면
-        #tinyint 값이 0이라면
-        print(room)
-        if(room==0):
-            print("해당하는 객실번호는 현재 이용할 수 없는 객실입니다.")
-            return
-        print("해당하는 객실은 현재 이용이 가능합니다.")
-        print("1 : 예약한다")
-        print("2 : 예약하지 않는다")
-        ans=input("값을 입력해주세요")
-        if(ans=="1"):
-            cursor.execute("UPDATE room_capacity_info SET Available='%s' WHERE RoomID='%s';"%(0, room_number));
-            db.commit();
-            return
-
+        #룸 예약이 가능하다면
+        #=Tinyint 값이 1이라면
+        if(room[5]==1):
+            print("해당하는 객실은 현재 이용이 가능합니다.")
+            print("1 : 예약한다")
+            print("2 : 예약하지 않는다")
+            ans = input("값을 입력해주세요")
+            if (ans == "1"):
+                cursor.execute("UPDATE room_capacity_info SET Available=0 WHERE RoomID='%s';" % (room[0]));
+                db.commit();
+                return
+    #for문을 나왔다는 이야기는 룸 예약이 불가능하다는 것
+    print("해당하는 객실번호는 현재 이용할 수 없는 객실입니다.")
+    return
 
     os.system('cls')
 
