@@ -134,7 +134,14 @@ def reservation():
         return
     
     #여기에 코드 넣어서 해결
-    room_number = int(input("예약하고 싶은 객실 번호를 입력해주세요."))
+    print("객실타입 번호|타입|설명|최대인원수")
+    cursor.execute("SELECT RoomTypeID,Typename,Description,Capacity FROM room_type_info");
+    data = cursor.fetchall()
+    count_rooms = len(data)
+    for room in data:
+        #룸 타입 출력
+        print(room)
+    room_number = int(input("예약하고 싶은 객실 타입 번호를 입력해주세요."))
     cursor.execute("SELECT Available FROM room_capacity_info WHERE RoomID='%s';"%(room_number))
     result = cursor.fetchone()
     if result == None:
