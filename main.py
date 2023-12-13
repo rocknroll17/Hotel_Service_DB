@@ -25,9 +25,9 @@ def login():
             print("탈퇴를 신청한 회원입니다. 탈퇴를 취소합니다.")
         print("로그인 성공")
         cursor.execute("""SELECT a.ID, a.CustomerID, c.Firstname, c.Lastname, c.Grade
-FROM account_info a
-JOIN customer_info c ON a.customerID = c.customerID
-WHERE a.ID = '%s' AND a.Password = '%s';""" % (login_ID, hash_password(Password)))
+            FROM account_info a
+            JOIN customer_info c ON a.customerID = c.customerID
+            WHERE a.ID = '%s' AND a.Password = '%s';""" % (login_ID, hash_password(Password)))
         result = cursor.fetchall()
         #print(result)
         global ID, CustomerId, FirstName, LastName, Grade
@@ -132,8 +132,7 @@ def reservation():
         time.sleep(3)
         os.system('cls')
         return
-    
-    #여기에 코드 넣어서 해결
+    #로그인 되어있다면 먼저 객실 타입 정보들 출력
     print("객실타입 번호|타입|설명|최대인원수")
     cursor.execute("SELECT RoomTypeID,Typename,Description,Capacity FROM room_type_info");
     data = cursor.fetchall()
@@ -141,6 +140,8 @@ def reservation():
     for room in data:
         #룸 타입 출력
         print(room)
+
+    #사용자
     room_type_number = int(input("예약하고 싶은 객실 타입 번호를 입력해주세요."))
     print("선택한 객실 타입")
     print(data[room_type_number-1])
@@ -164,6 +165,7 @@ def reservation():
             if (ans == "1"):
                 cursor.execute("UPDATE room_capacity_info SET Available=0 WHERE RoomID='%s';" % (room[0]));
                 db.commit();
+                print("예약이 완료되었습니다. 방번호는 '%s' 입니다."%room[1]);
                 return
     #for문을 나왔다는 이야기는 룸 예약이 불가능하다는 것
     print("해당하는 객실번호는 현재 이용할 수 없는 객실입니다.")
